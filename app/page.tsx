@@ -87,7 +87,7 @@ export default function Home() {
               <span className="kicker">FEATURED COURSES</span>
               <h2>Start with the skills that matter.</h2>
             </div>
-            <a className="viewAll" href="#">View all courses →</a>
+            <a className="viewAll" href="/courses">View all courses →</a>
           </div>
 
           <div className="courseGrid">
@@ -158,13 +158,13 @@ export default function Home() {
             <span className="kicker">FREE NOTES</span>
             <h2>Study notes that stay organized.</h2>
             <p>Students can browse notes publicly, while downloading requires login so progress and access stay connected to the learner account.</p>
-            <a className="primaryButton" href="#">Browse Free Notes</a>
+            <a className="primaryButton" href="/notes">Browse Free Notes</a>
           </article>
           <article className="featurePanel">
             <span className="kicker">TESTS & CERTIFICATES</span>
             <h2>Practice, pass and get certified.</h2>
             <p>Module quizzes, random question sets, a final exam and course completion tracking keep learning measurable and meaningful.</p>
-            <a className="secondaryButton darkText" href="#">Explore Tests</a>
+            <a className="secondaryButton darkText" href="/tests">Explore Tests</a>
           </article>
         </div>
       </section>
