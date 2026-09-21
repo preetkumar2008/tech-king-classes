@@ -82,23 +82,11 @@ export default async function AdminDashboardPage() {
           <Link href="/admin/courses" className="admin-action-card">
             <span>📚</span><div><h3>Courses</h3><p>Add, edit, publish and manage courses.</p></div><b>→</b>
           </Link>
-          <Link href="/admin/content" className="admin-action-card">
-            <span>🧩</span><div><h3>Modules & Lessons</h3><p>Build modules, lessons, videos and notes.</p></div><b>→</b>
-          </Link>
-          <Link href="/admin/enrollments" className="admin-action-card">
-            <span>💳</span><div><h3>Enrollments & Payments</h3><p>Track enrollments and payment-ready access.</p></div><b>→</b>
-          </Link>
           <Link href="/admin/students" className="admin-action-card">
             <span>👨‍🎓</span><div><h3>Students</h3><p>View registered students and learning status.</p></div><b>→</b>
           </Link>
           <Link href="/admin/quizzes" className="admin-action-card">
             <span>📝</span><div><h3>Quizzes</h3><p>Manage tests and question content.</p></div><b>→</b>
-          </Link>
-          <Link href="/admin/notifications" className="admin-action-card">
-            <span>🔔</span><div><h3>Notifications</h3><p>Create and publish student announcements.</p></div><b>→</b>
-          </Link>
-          <Link href="/admin/analytics" className="admin-action-card">
-            <span>📊</span><div><h3>Analytics</h3><p>Track course performance, quizzes and learning outcomes.</p></div><b>→</b>
           </Link>
           <Link href="/certificates" className="admin-action-card">
             <span>🏆</span><div><h3>Certificates</h3><p>Review issued certificates.</p></div><b>→</b>

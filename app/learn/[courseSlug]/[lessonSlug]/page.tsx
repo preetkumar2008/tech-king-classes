@@ -81,32 +81,6 @@ export default async function LessonPage({
 
   const lesson = allLessons[lessonIndex];
 
-  // Access control: preview lessons are available after login; all other
-  // lessons require an active enrollment for the course.
-  if (!lesson.is_free_preview) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    const isAdmin = profile?.role === "admin";
-
-    if (!isAdmin) {
-      const { data: enrollment } = await supabase
-        .from("enrollments")
-        .select("id")
-        .eq("user_id", user.id)
-        .eq("course_id", course.id)
-        .eq("status", "active")
-        .maybeSingle();
-
-      if (!enrollment) {
-        redirect(`/courses/${course.slug}`);
-      }
-    }
-  }
-
   const previousLesson =
     lessonIndex > 0 ? allLessons[lessonIndex - 1] : null;
 
@@ -198,9 +172,6 @@ export default async function LessonPage({
               <iframe
                 src={getEmbedUrl(lesson.video_url)}
                 title={lesson.title}
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
             ) : (
@@ -228,7 +199,7 @@ export default async function LessonPage({
                 rel="noopener noreferrer"
                 className="notes-button"
               >
-                📄 Open Notes / PDF
+                📄 Download Notes
               </a>
             )}
           </div>
@@ -263,31 +234,24 @@ export default async function LessonPage({
 function getEmbedUrl(url: string) {
   try {
     const parsed = new URL(url);
-    const hostname = parsed.hostname.toLowerCase().replace(/^www\./, "");
 
-    if (hostname === "youtube.com" || hostname === "m.youtube.com") {
+    if (parsed.hostname.includes("youtube.com")) {
       const videoId = parsed.searchParams.get("v");
-      if (videoId) return `https://www.youtube-nocookie.com/embed/${videoId}`;
 
-      const pathParts = parsed.pathname.split("/").filter(Boolean);
-      if (pathParts[0] === "embed" && pathParts[1]) {
-        return `https://www.youtube-nocookie.com/embed/${pathParts[1]}`;
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
       }
-      if (pathParts[0] === "shorts" && pathParts[1]) {
-        return `https://www.youtube-nocookie.com/embed/${pathParts[1]}`;
+
+      if (parsed.pathname.startsWith("/embed/")) {
+        return url;
       }
     }
 
-    if (hostname === "youtu.be") {
-      const videoId = parsed.pathname.slice(1).split("/")[0];
-      if (videoId) return `https://www.youtube-nocookie.com/embed/${videoId}`;
-    }
+    if (parsed.hostname === "youtu.be") {
+      const videoId = parsed.pathname.slice(1);
 
-    if (hostname === "vimeo.com" || hostname === "player.vimeo.com") {
-      const parts = parsed.pathname.split("/").filter(Boolean);
-      const videoId = parts.at(-1);
-      if (videoId && /^\d+$/.test(videoId)) {
-        return `https://player.vimeo.com/video/${videoId}`;
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
       }
     }
 

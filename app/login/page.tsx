@@ -11,13 +11,11 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     setError("");
     setLoading(true);
 
@@ -45,10 +43,7 @@ export default function LoginPage() {
         </div>
 
         <h1>Welcome Back</h1>
-
-        <p className="auth-subtitle">
-          Login to continue your learning journey.
-        </p>
+        <p className="auth-subtitle">Login to continue your learning journey.</p>
 
         <form className="auth-form" onSubmit={handleLogin}>
           <label>
@@ -73,6 +68,10 @@ export default function LoginPage() {
             />
           </label>
 
+          <div className="auth-forgot-wrap">
+            <Link href="/forgot-password">Forgot Password?</Link>
+          </div>
+
           {error && <div className="auth-error">{error}</div>}
 
           <button type="submit" disabled={loading}>
@@ -81,8 +80,7 @@ export default function LoginPage() {
         </form>
 
         <p className="auth-footer-link">
-          Don't have an account?{" "}
-          <Link href="/register">Create Account</Link>
+          Don&apos;t have an account? <Link href="/register">Create Account</Link>
         </p>
       </div>
     </main>
