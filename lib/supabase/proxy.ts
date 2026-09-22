@@ -40,10 +40,24 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  if (!user && pathname.startsWith("/student")) {
+  if (!user && (pathname.startsWith("/student") || pathname.startsWith("/admin"))) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
+  }
+
+  if (user && pathname.startsWith("/admin")) {
+    const { data: profile, error } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.sub)
+      .maybeSingle();
+
+    if (error || profile?.role !== "admin") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/student/dashboard";
+      return NextResponse.redirect(url);
+    }
   }
 
   if (
